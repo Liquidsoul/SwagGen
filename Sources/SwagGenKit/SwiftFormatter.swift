@@ -66,6 +66,7 @@ public class SwiftFormatter: CodeFormatter {
     var inbuiltTypes: [String] = [
         "Error",
         "Data",
+        "Type"
     ]
 
     override var disallowedNames: [String] { return disallowedKeywords + inbuiltTypes }
