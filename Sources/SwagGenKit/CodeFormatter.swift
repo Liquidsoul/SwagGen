@@ -366,8 +366,10 @@ public class CodeFormatter {
         context["statusCode"] = response.statusCode
         context["success"] = response.successful
         context["schema"] = response.response.value.schema.flatMap(getSchemaContext)
+        context["schemas"] = response.response.value.content?.mediaItems.mapValues({ getSchemaContext($0.schema) })
         context["description"] = response.response.value.description.description
         context["type"] = response.response.value.schema.flatMap { getSchemaType(name: response.name, schema: $0) }
+        context["types"] = response.response.value.content?.mediaItems.mapValues({ getSchemaType(name: response.name, schema: $0.schema) })
 
         return context
     }
