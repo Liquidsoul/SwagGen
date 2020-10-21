@@ -283,6 +283,7 @@ public class CodeFormatter {
         var formProperties: [Context] = []
 
         if let requestBody = operation.requestBody {
+            context["requestBody"] = getRequestBodyContext(requestBody)
             // TODO: allow other types of schemas
             if let schema = requestBody.value.content.jsonSchema {
                 let name = requestBody.name ?? "Body"
@@ -352,6 +353,8 @@ public class CodeFormatter {
             context = getSchemaContext(schema)
             context["type"] = getSchemaType(name: requestBody.name ?? name, schema: schema)
         }
+        context["schemas"] = requestBody.value.content.mediaItems.mapValues { getSchemaContext($0.schema) }
+        context["types"] = requestBody.value.content.mediaItems.mapValues { getSchemaType(name: requestBody.name ?? name, schema: $0.schema) }
         context["name"] = name
         context["required"] = requestBody.value.required
 
